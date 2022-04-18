@@ -73,6 +73,10 @@
                           <label for="exampleInputEmail1">Mini Açıklama</label>
                           <input type="text" class="form-control" name="mini_desc" value="{{$services->mini_desc}}" >
                         </div>
+                        <div class="form-group col-md-6">
+                          <label for="exampleInputEmail1">İcon</label>
+                          <input type="text" class="form-control" name="icon" value="{{$services->icon}}" >
+                        </div>
                       </div>
                       
                       <div class="row"><div class="col-md-6 mx-auto"><button  class="btn btn-primary form-control">Kaydet</button><div></div></div>

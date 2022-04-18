@@ -9,9 +9,38 @@ use App\Models\language;
 class IndexController extends Controller
 {
     //
+    public function index(){
+        $data=Language::all();
+        return view('admin.language.index',['data'=>$data]);
+    }
     public function create()
     {
             return view('admin.language.create');
+    }
+    public function edit($id){
+        $data=Language::findOrFail($id);
+        return view('admin.language.edit',['data'=>$data]);
+    }
+    public function update(Request $request,$id)
+    {
+        $request->validate([
+        'name'=>'required',
+            'code'=>'required'
+       ]);
+        $data=Language::findOrFail($id);
+        $data->name=$request->name;
+        $data->code=$request->code;
+        $saved=$data->save();
+        if(!$saved){
+            App::abort(500,'Error');
+        }
+        else{
+            return redirect()->back()->with('status','Güncelleme Başarılı...');
+        }
+
+       
+       
+
     }
     public function store(Request $request)
     {
@@ -35,6 +64,12 @@ class IndexController extends Controller
             
         
         
+    }
+    public function delete($id){
+        $data=Language::findOrFail($id);
+        $data->delete();
+        return redirect()->back()->with('status','silindi');
+
     }
 
 }

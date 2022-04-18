@@ -55,7 +55,19 @@ class IndexController extends Controller
     
                             return $btn;
                     })
-                    ->rawColumns(['edit','delete','image','language_name','isAktive'])
+                    ->addColumn('category', function($data){
+     
+                          
+
+                           if($data->isAktive==1){
+                                 $btn ='Aktif';
+                            }
+                            else{
+                                $btn ='Pasif'; 
+                            }
+                            return $btn;
+                    })
+                    ->rawColumns(['edit','delete','image','language_name','isAktive','category'])
                     ->make(true);
         }
         
@@ -91,6 +103,7 @@ class IndexController extends Controller
       $services->isAktive=$request->isAktive;
       $services->title=$request->title;
       $services->mini_desc=$request->mini_desc;
+      $services->icon=$request->icon;
       $services->description=$request->editor1;
       if(!empty($request->file('image'))){
 
@@ -143,6 +156,7 @@ class IndexController extends Controller
       $services->isAktive=$request->isAktive;
       $services->title=$request->title;
       $services->mini_desc=$request->mini_desc;
+      $services->icon=$request->icon;
       $services->description=$request->editor1;
       if(!empty($request->file('image'))){
           Storage::delete($services->image);

@@ -15,6 +15,7 @@
             <tr>
                 <th>İd</th>
                 <th>Sıra</th>
+                <th>Title</th>
                 <th>Aktiflik</th>
                 <th>İmage </th>
                 <th>Dil</th>
@@ -45,6 +46,7 @@
         columns: [
             {data: 'id', name: 'id'},
             {data: 'order_number', name: 'order_number'},
+            {data: 'title', name: 'title'},
             {data: 'isAktive', name: 'isAktive'},
             {data: 'image', name: 'image'},
             {data: 'language_name', name: 'language_name'},

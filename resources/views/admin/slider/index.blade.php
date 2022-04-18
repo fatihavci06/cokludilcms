@@ -1,28 +1,52 @@
 @extends('layouts.admin.master')
-@section('title','Slider Ekle')
+@section('title','Slider')
 @section('content')
 
           
            
           <div class="container-fluid">
-              <h4 class="c-grey-900 mT-10 mB-30">Data Tables</h4>
+             
               <div class="row">
                 <div class="col-md-12">
                   <div class="bgc-white bd bdrs-3 p-20 mB-20">
-                    <h4 class="c-grey-900 mB-20">Bootstrap Data Table</h4>
-                    <table class="table table-bordered data-table">
+                    <h4 class="c-grey-900 mB-20">Slider</h4>
+                    <table id="example" class="display" style="width:100%">
         <thead>
             <tr>
                 <th>İd</th>
-                <th>İmage </th>
+                <th style="display: none;">Sıra</th>
                 <th>Title</th>
-                <th>Language</th>
+                <th>İmage</th>
+                <th>Dil</th>
                 <th>Edit</th>
-                <th width="100px">Delete</th>
+                <th>Delete</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="sortable">
+          @foreach($data as $d)
+            <tr id="slider_{{$d->id}}">
+                <td>{{$d->id}}</td>
+                <td style="display: none;" >{{$d->order_number}}</td>
+                <td>{{$d->title}}</td>
+                <td><img src="{{Storage::url($d->image)}}" width="30px" height="30px"></td>
+                <td>{{$d->language_name->name}}</td>
+                <td><a class="btn btn-primary" href="{{route('slider.edit',$d->id)}}">Düzenle</a></td>
+                <td><a  onclick="silmedenSor({{'"'.route('slider.delete',$d->id).'"'}});return false" class="edit btn btn-danger btn-sm">Sil</a></td>
+            </tr>
+          @endforeach
+            
         </tbody>
+        <tfoot>
+            <tr>
+                <th>İd</th>
+                <th style="display: none;">Sıra</th>
+                <th>Title</th>
+                <th>İmage</th>
+                <th>Dil</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </tfoot>
     </table>
                   </div>
                 </div>
@@ -35,26 +59,15 @@
 @section('js')
 
 <script type="text/javascript">
-  $(function () {
-    
-    var table = $('.data-table').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: "{{ route('slider.index') }}",
-        columns: [
-            {data: 'language_id', name: 'language_id'},
-            {data: 'image', name: 'image'},
-            {data: 'title', name: 'title'},
-            {data: 'language_name', name: 'language_name'},
-            {data: 'edit', name: 'edit', orderable: false, searchable: false},
-            {data: 'delete', name: 'delete', orderable: false, searchable: false},
-
-        ]
+  $(document).ready(function() {
+    $('#example').DataTable({
+        "order": [[ 1, "asc" ]]
     });
 
-    
-  });
+} );
+
 </script>
+
  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script type="text/javascript">
 
@@ -98,4 +111,20 @@ function silmedenSor (gidilecekLink) {
 
 
 </script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#sortable" ).sortable({
+        
+
+        update:function(){
+         var siralama=$('#sortable').sortable('serialize');
+         console.log(siralama);
+         $.get("{{route('slider.sortable')}}?",siralama,function(data,status){
+            console.log(data);
+         });
+        }
+    });
+  } );
+  </script>
 @endsection

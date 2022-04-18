@@ -20,50 +20,54 @@
 
                       </div>
                     @endif
-                    <form method="post" action="{{route('slider.update',['id'=>$edit->id,'language_id'=>$edit->language_id])}}" enctype="multipart/form-data">
+                    <form method="post" action="{{route('slider.update',$data->id)}}" enctype="multipart/form-data">
                       @csrf
-                      <div class="row">
-                           <div class="col-md-3">
+                      
+                        
+                        <div class="row">
+                          <div class="col-md-6">
                               <div class="form-group">
-                              <label for="exampleInputEmail1">Slider Resim :</label>
-                              @if($edit->image)
-                              <img src="{{Storage::url($edit->image)}}" width="150px" height="150px" />
-                              @endif
+                              <label for="exampleInputEmail1">Dil </label>
+                              <select class="form-control" name="language_id" aria-label="Default select example">
+
+                            <option value="" >Dil Seçiniz</option>
+                            @foreach($language as $l)
+                            <option value="{{$l->id}}" @if($data->language_id==$l->id) selected @endif>{{$l->name}}</option>
+                            
+                            @endforeach
+                          </select>
                             </div>
                           </div>
-                          <div class="col-md-3">
-                              <div class="form-group">
-                              <label for="exampleInputEmail1">Slider Dil :</label>
-                                {{$edit->language_name->name}}
-                            </div>
-                          </div>
-                      </div>
-                       <div class="row">
-                          <div class="col-md-3">
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6">
                               <div class="form-group">
                               <label for="exampleInputEmail1">Slider Resim </label>
                               <input type="file" class="form-control" name="image"  >
                             </div>
                           </div>
-                          <div class="col-md-3">
+                          <div class="col-md-6">
                               <div class="form-group">
                               <label for="exampleInputEmail1">Slider Başlık </label>
-                              <input type="text" class="form-control" name="title" value="{{$edit->title}}" >
-                            </div>
-                          </div>
-                          <div class="col-md-3">
-                              <div class="form-group">
-                              <label for="exampleInputEmail1">Slider Açıklama </label>
-                              <input type="text" class="form-control" name="description" value="{{$edit->description}}">
-                            </div>
-                          </div>
-                          <div class="col-md-3">
-                              <div class="form-group">
-                              <label for="exampleInputEmail1">Slider URL </label>
-                              <input type="text" class="form-control" name="url" value="{{$edit->url}}">
+                              <input type="text" class="form-control" name="title" value="{{$data->title}}" >
                             </div>
                           </div>
                         </div>
+                        <div class="row">
+                          <div class="col-md-6">
+                              <div class="form-group">
+                              <label for="exampleInputEmail1">Slider Açıklama </label>
+                              <input type="text" class="form-control" name="description" value="{{$data->description}}">
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                              <div class="form-group">
+                              <label for="exampleInputEmail1">Slider URL </label>
+                              <input type="text" class="form-control" name="url" value="{{$data->url}}" >
+                            </div>
+                          </div>
+                        </div>
+                      
                       
                       <button  class="btn btn-primary">Kaydet</button>
                     </form>

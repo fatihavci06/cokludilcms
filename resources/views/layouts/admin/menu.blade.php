@@ -20,6 +20,20 @@
           </div>
           <ul class="sidebar-menu scrollable pos-r">
             <li class="nav-item mT-30 active"><a class="sidebar-link" href="{{route('admin.index')}}"><span class="icon-holder"><i class="c-blue-500 ti-home"></i></span><span class="title">Dashboard</span></a></li>
+            
+            <li class="nav-item dropdown"><a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i></span><span class="title">Ayarlar</span><span class="arrow"><i class="ti-angle-right"></i></span></a>
+              <ul class="dropdown-menu">
+                <li><a class="sidebar-link" href="{{route('setting.index')}}">Site Ayarlar</a></li>
+                <li><a class="sidebar-link" href="{{route('setting_text.index')}}">Text Ayarlar</a></li>
+              </ul>
+            </li>
+
+            <li class="nav-item dropdown"><a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i></span><span class="title">Dil</span><span class="arrow"><i class="ti-angle-right"></i></span></a>
+              <ul class="dropdown-menu">
+                <li><a class="sidebar-link" href="{{route('language.index')}}">Dil Liste</a></li>
+                <li><a class="sidebar-link" href="{{route('language.create')}}">Dil Ekle</a></li>
+              </ul>
+            </li>
             <li class="nav-item dropdown"><a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i></span><span class="title">Slider</span><span class="arrow"><i class="ti-angle-right"></i></span></a>
               <ul class="dropdown-menu">
                 <li><a class="sidebar-link" href="{{route('slider.index')}}">Slider Liste</a></li>
@@ -32,7 +46,48 @@
                 <li><a class="sidebar-link" href="{{route('services.create')}}">Servis Ekle</a></li>
               </ul>
             </li>
-            
+            <li class="nav-item dropdown"><a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i></span><span class="title">Blog Kategoriler</span><span class="arrow"><i class="ti-angle-right"></i></span></a>
+              <ul class="dropdown-menu">
+                <li><a class="sidebar-link" href="{{route('blogCategory.index')}}">Kategori Liste</a></li>
+                <li><a class="sidebar-link" href="{{route('blogCategory.create')}}">Kategori Ekle</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown"><a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i></span><span class="title">Blog </span><span class="arrow"><i class="ti-angle-right"></i></span></a>
+              <ul class="dropdown-menu">
+                <li><a class="sidebar-link" href="{{route('blog.index')}}">Blog Liste</a></li>
+                <li><a class="sidebar-link" href="{{route('blog.create')}}">Blog Ekle</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown"><a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i></span><span class="title">Sayfalar </span><span class="arrow"><i class="ti-angle-right"></i></span></a>
+              <ul class="dropdown-menu">
+                <li><a class="sidebar-link" href="{{route('page.index')}}">Sayfa Liste</a></li>
+                <li><a class="sidebar-link" href="{{route('page.create')}}">Sayfa Ekle</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown"><a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i></span><span class="title">Projeler </span><span class="arrow"><i class="ti-angle-right"></i></span></a>
+              <ul class="dropdown-menu">
+                <li><a class="sidebar-link" href="{{route('project.index')}}">Proje Liste</a></li>
+                <li><a class="sidebar-link" href="{{route('project.create')}}">Proje Ekle</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown"><a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i></span><span class="title">Takım </span><span class="arrow"><i class="ti-angle-right"></i></span></a>
+              <ul class="dropdown-menu">
+                <li><a class="sidebar-link" href="{{route('takim.index')}}">Takım Liste</a></li>
+                <li><a class="sidebar-link" href="{{route('takim.create')}}">Takım Ekle</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown"><a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i></span><span class="title">Referans </span><span class="arrow"><i class="ti-angle-right"></i></span></a>
+              <ul class="dropdown-menu">
+                <li><a class="sidebar-link" href="{{route('referans.index')}}">Referans Liste</a></li>
+                <li><a class="sidebar-link" href="{{route('referans.create')}}">Referans Ekle</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown"><a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i></span><span class="title">Kullanıcı </span><span class="arrow"><i class="ti-angle-right"></i></span></a>
+              <ul class="dropdown-menu">
+                <li><form action="{{route('logout')}}" method="post">@csrf<button class=" btn btn-danger text-danger mx-auto d-b td-n pY-5 bgcH-grey-100 c-grey-700"><i class="ti-power-off mR-10"></i><span>Logout</span></button></form></li>
+                <li><a class="sidebar-link" href="{{route('project.create')}}">Proje Ekle</a></li>
+              </ul>
+            </li>
           </ul>
         </div>
       </div>

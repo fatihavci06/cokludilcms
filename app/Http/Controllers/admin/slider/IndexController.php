@@ -15,40 +15,10 @@ class IndexController extends Controller
     public function index(Request $request){
          $data = SliderContent::with('language_name')->get();
 
-        if ($request->ajax()) {
-            $data = SliderContent::with('language_name')->get();
-            return Datatables::of($data)
-                    ->addIndexColumn()
-                    ->addColumn('image', function($data){
-     
-                           $btn = '<img src="'.Storage::url($data->image) .'" height="30px" width="30px" />';
-    
-                            return $btn;
-                    })
-                    ->addColumn('language_name', function($data){
-     
-                           $btn = $data->language_name->name;
-    
-                            return $btn;
-                    })
-                    ->addColumn('edit', function($data){
-     
-                           $btn = '<a href="'.route('slider.edit',$data->id).'" class="edit btn btn-primary btn-sm">Edit</a>';
-    
-                            return $btn;
-                    })
-                    ->addColumn('delete', function($data){
-                       
-                           $btn = '<a  onclick="silmedenSor('."'".route('slider.delete',$data->id)."'".');return false" class="edit btn btn-danger btn-sm">Sil</a>';
-    
-                            return $btn;
-                    })
-                    ->rawColumns(['edit','delete','image','language_name'])
-                    ->make(true);
-        }
         
+        //return response()->json($data);
         
-        return view('admin.slider.index');
+        return view('admin.slider.index',['data'=>$data]);
     }
     public function create()
     {
@@ -60,57 +30,54 @@ class IndexController extends Controller
     {   
 
          $request->validate([
-            'title.*'=>'required',
-            'url.*'=>'required',
-            'description.*'=>'required',
-             'image' => 'required|array',
+            'title'=>'required',
+            'url'=>'required',
+            'description'=>'required',
+             'image' => 'required',
+             'language_id'=>'required'
              
            ]);
 
             
-            $language=Language::all();
-
-           // return response()->json($language[0]->id);
-            foreach ($language as  $value) {
-                    
-                   
-                   /* if($request->title[$value->id]=='' || $request->description[$value->id]=='' || $request->url[$value->id]=='' || $request->image[$value->id]==''  ){
-                        
-                        return redirect()->back()->with('status','Tüm inputları doldurunuz');
-                    }*/
-
-                    $varmi=SliderContent::where('language_id',$value->id)->count();
-                    if($varmi>0){
-                        $sl=SliderContent::where('language_id',$value->id)->first();
-                        Storage::delete($sl->image);
-                        $sl->delete();
-                    }
-                    $slidercontent=new SliderContent;
-                    $slidercontent->language_id=$value->id;
-                    $slidercontent->title=$request->title[$value->id];
-                    $slidercontent->description=$request->description[$value->id];
-                    $slidercontent->url=$request->url[$value->id];
-                  
-                    if(!empty($request->file('image'))){
-
-                       $slidercontent->image=Storage::putFile('images', $request->image[$value->id]);  //storage burda
-                        
-                    }
-                     $slidercontent->save();
-
-                 
-          }
+         $data=new SliderContent;
+         $data->language_id=$request->language_id;
+         $data->title=$request->title;
+         $data->url=$request->url;
+         $data->description=$request->description;
+         if(!empty($request->file('image'))){
+            
+            $data->image=Storage::putFile('images', $request->file('image'));  //storage burda
+            
+        }
+         $saved=$data->save();
+         if(!$saved){
+            App::Abort(500,'Error');
+         }
+         else{
          
           return redirect()->back()->with('status','Kayıt Başarılı');
+        }
     }
 
     public function edit($id){
            
            $edit=SliderContent::findOrFail($id);
-          
-           return view('admin.slider.edit',['edit'=>$edit]);
+            $language=Language::all();
+           return view('admin.slider.edit',['data'=>$edit,'language'=>$language]);
     }
-    public function update(Request $request,$id,$language_id){
+    public function sortable(Request $request){
+        
+          
+           foreach ($request->get('slider') as $key => $value) { //bladeden gelen page (blade ne yazarsan o gelir tablo içerine bak)
+              
+              $data=SliderContent::findOrfail($value);
+              $data->order_number=$key;
+              $data->save();
+
+           }
+                    
+    }
+    public function update(Request $request,$id){
                      $request->validate([
                     'title'=>'required',
                     'url'=>'required',
@@ -121,7 +88,7 @@ class IndexController extends Controller
            
                     $slidercontent=SliderContent::findOrFail($id);
 
-                    $slidercontent->language_id=$language_id;
+                    $slidercontent->language_id=$request->language_id;
                     $slidercontent->title=$request->title;
                     $slidercontent->description=$request->description;
                     $slidercontent->url=$request->url;
