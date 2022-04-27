@@ -10,7 +10,8 @@
         $setting= \App\Http\Controllers\front\IndexController::setting(); 
         $dil= \App\Http\Controllers\front\IndexController::diller();
         $uygulamadili=\App\Http\Controllers\front\IndexController::uygulamadili();
-        $page=\App\Http\Controllers\front\IndexController::pageGet(App::getlocale());  <!-- App::getlocale() ile uygulama dilini alarak fonksiyona yolladık -->
+        $page=\App\Http\Controllers\front\IndexController::pageGet(App::getlocale());
+        $services=\App\Http\Controllers\front\IndexController::servicesGet(App::getlocale());    
          @endphp
         <header id="header" class="header-section">
             <div class="top-header">
@@ -57,23 +58,17 @@
                                        @endforeach
                                     </ul>
                                 </li>
-                                <li class="active"> <a href="index.html">@lang('general.services')</a>
+                                <li class="active"> <a href="#">@lang('general.services')</a>
                                     <ul>
-                                       <li><a href="index.html">Home Default</a></li>
-                                       <li><a href="index-2.html">Home Modern</a></li>
+                                        @foreach($services as $se)
+                                       <li><a href="{{route('front.services',['id'=>$se->id])}}">{{$se->title}}</a></li>
+                                       @endforeach
                                     </ul>
                                 </li>
                                
                                 
-                                <li><a href="blog-grid.html">@lang('general.blog')</a>
-                                    <ul>
-                                       <li><a href="blog-grid.html">Blog Grid</a></li>
-                                       <li><a href="blog-left-sidebar.html">Blog Left Sidebar</a></li>
-                                       <li><a href="blog-right-sidebar.html">Blog Right Sidebar</a></li>
-                                       <li><a href="blog-list-classic.html">Classic List</a></li>
-                                       <li><a href="blog-list-modern.html">Modern List</a></li>
-                                       <li><a href="blog-single.html">Blog Single</a></li>
-                                    </ul>
+                                <li><a href="{{route('front.blog')}}">@lang('general.blog')</a>
+                                    
                                 </li>
                                 <li> <a href="{{route('front.contact')}}">@lang('general.contact')</a></li>
                             </ul>

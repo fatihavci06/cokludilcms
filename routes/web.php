@@ -16,56 +16,10 @@ use Illuminate\Support\Facades\Route;
 /*Route::get('/', function () {
     return view('welcome');
 });*/
-Route::group([
-     'prefix' => LaravelLocalization::setLocale(),
-     'middleware' => [ 'localeSessionRedirect', 'localizationRedirect' ]
-], function() {
-     Route::get('/{lang?}','App\Http\Controllers\front\IndexController@index')->name('front.index');
-     //Route::get('/{dil}','App\Http\Controllers\front\IndexController@index');
-
-    Route::get(LaravelLocalization::transRoute('routes.about'), 'App\Http\Controllers\front\IndexController@about');
-    Route::get(LaravelLocalization::transRoute('routes.pages'), 'App\Http\Controllers\front\IndexController@pages')->name('front.page');
-     Route::get(LaravelLocalization::transRoute('routes.map'), 'App\Http\Controllers\front\IndexController@map');
-   Route::get(LaravelLocalization::transRoute('routes.contact'), 'App\Http\Controllers\front\IndexController@contact')->name('front.contact');
-    //Route::get(LaravelLocalization::transRoute('routes.pages'), 'App\Http\Controllers\front\IndexController@pages');
-
-    
-
-    Route::get(LaravelLocalization::transRoute('routes.article'), function () {
-        return 's';
-    });
-    
-});
-
-
-
-
-
-Auth::routes();
-
-
-
-
-
-
-
-/*
- Route::group([
-     'prefix' => LaravelLocalization::setLocale(),
-     'middleware' => [ 'localeSessionRedirect', 'localizationRedirect' ]
-], function() {
-     Route::get('/','App\Http\Controllers\front\IndexController@index')->name('front.index');
-     Route::get('/{dil}','App\Http\Controllers\front\IndexController@index');
-     Route::get(LaravelLocalization::transRoute('routes.page'), function () {
-        echo 's';
-    });
-}); 
-
-
-*/
-//Route::get('/{dil}','App\Http\Controllers\front\IndexController@index')->name('front.indexs');
 
 Route::post('/offer','App\Http\Controllers\front\IndexController@offer')->name('front.offer');
+
+Route::post('/contact','App\Http\Controllers\front\IndexController@contactpost')->name('front.contactpost');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/index','App\Http\Controllers\admin\IndexController@index')->name('admin.index');
@@ -178,3 +132,56 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     });
 
 });
+Auth::routes();
+Route::group([
+     'prefix' => LaravelLocalization::setLocale(),
+     'middleware' => [ 'localeSessionRedirect', 'localizationRedirect' ]
+], function() {
+     Route::get(LaravelLocalization::transRoute('routes.contact'), 'App\Http\Controllers\front\IndexController@contact')->name('front.contact');
+    
+     //Route::get('/{dil}','App\Http\Controllers\front\IndexController@index');
+     Route::get(LaravelLocalization::transRoute('routes.services'), 'App\Http\Controllers\front\IndexController@services')->name('front.services');
+    Route::get(LaravelLocalization::transRoute('routes.about'), 'App\Http\Controllers\front\IndexController@about');
+    Route::get(LaravelLocalization::transRoute('routes.pages'), 'App\Http\Controllers\front\IndexController@pages')->name('front.page');
+    Route::get(LaravelLocalization::transRoute('routes.blog'), 'App\Http\Controllers\front\IndexController@blog')->name('front.blog');
+     Route::get(LaravelLocalization::transRoute('routes.map'), 'App\Http\Controllers\front\IndexController@map');
+     Route::get(LaravelLocalization::transRoute('routes.blog_cat'), 'App\Http\Controllers\front\IndexController@blog_cat')->name('front.blog_cat');
+   
+    //Route::get(LaravelLocalization::transRoute('routes.pages'), 'App\Http\Controllers\front\IndexController@pages');
+
+    
+      Route::get('/{lang?}','App\Http\Controllers\front\IndexController@index')->name('front.index');
+    Route::get(LaravelLocalization::transRoute('routes.article'), function () {
+        return 's';
+    });
+    
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ Route::group([
+     'prefix' => LaravelLocalization::setLocale(),
+     'middleware' => [ 'localeSessionRedirect', 'localizationRedirect' ]
+], function() {
+     Route::get('/','App\Http\Controllers\front\IndexController@index')->name('front.index');
+     Route::get('/{dil}','App\Http\Controllers\front\IndexController@index');
+     Route::get(LaravelLocalization::transRoute('routes.page'), function () {
+        echo 's';
+    });
+}); 
+
+
+*/
+//Route::get('/{dil}','App\Http\Controllers\front\IndexController@index')->name('front.indexs');
+

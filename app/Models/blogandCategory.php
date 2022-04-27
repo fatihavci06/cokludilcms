@@ -11,4 +11,8 @@ class blogandCategory extends Model
     public function category_name(){
       return  $this->hasOne(blogCategory::class, 'id', 'category_id'); 
     }
+     public function blogs(){
+      return  $this->hasMany(Blog::class, 'id', 'blog_id'); 
+    }
+   
 }

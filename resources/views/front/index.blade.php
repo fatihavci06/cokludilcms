@@ -106,29 +106,29 @@
                     <li class="col-md-3 col-sm-6 sm-padding">
                         <div class="counter-content text-center">
                             <i class="ti-bar-chart"></i>
-                            <h3 class="counter">49</h3>
-                            <h4 class="text-white">Year Experience</h4>
+                            <h3 class="counter">{{$setting->year_experience}}</h3>
+                            <h4 class="text-white">@lang('general.experience')</h4>
                         </div>
                     </li>
                     <li class="col-md-3 col-sm-6 sm-padding">
                         <div class="counter-content text-center">
                             <i class="ti-cup"></i>
-                            <h3 class="counter">99</h3>
-                            <h4 class="text-white">Awerd Won</h4>
+                            <h3 class="counter">{{$setting->year_won}}</h3>
+                            <h4 class="text-white">@lang('general.won')</h4>
                         </div>
                     </li>
                     <li class="col-md-3 col-sm-6 sm-padding">
                         <div class="counter-content text-center">
                             <i class="ti-user"></i>
-                            <h3 class="counter">149</h3>
-                            <h4 class="text-white">Expart Stuff</h4>
+                            <h3 class="counter">{{$setting->expart_stuff}}</h3>
+                            <h4 class="text-white">@lang('general.stuff')</h4>
                         </div>
                     </li>
                     <li class="col-md-3 col-sm-6 sm-padding">
                         <div class="counter-content text-center">
                             <i class="ti-face-smile"></i>
-                            <h3 class="counter">199</h3>
-                            <h4 class="text-white">Happy Customer</h4>
+                            <h3 class="counter">{{$setting->happy_customer}}</h3>
+                            <h4 class="text-white">@lang('general.happy_customer')</h4>
                         </div>
                     </li>
                 </ul>

@@ -40,5 +40,13 @@ return [
     'contact'=>'Contact',
     'newsletter'=>'Newsletter',
     'your_email'=>'Email Address',
+    'experience'=>'Experience',
+    'won'=>'Won',
+    'stuff'=>'Expart Stuff',
+    'happy_customer'=>'Happy Customer',
+    'contact_text'=>'You can contact us by filling out the form for your suggestions and complaints.',
+    'search'=>'Search',
+    'categories'=>'Categories',
+    'random_post'=>'Random Posts'
 
 ];

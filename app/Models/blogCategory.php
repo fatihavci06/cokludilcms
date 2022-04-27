@@ -11,4 +11,8 @@ class blogCategory extends Model
     public function language_name(){
       return  $this->hasOne(Language::class, 'id', 'language_id'); 
     }
+    public function cat_count(){
+      return  $this->hasMany(blogandCategory::class, 'category_id', 'id'); 
+    }
+    
 }

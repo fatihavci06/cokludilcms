@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Language;
 use App\Models\blogCategory;
+use App\Models\blog;
+use App\Models\blogandCategory;
  use Illuminate\Support\Facades\Storage;
  use Illuminate\Support\Str;
  use DataTables;
@@ -159,8 +161,18 @@ class IndexController extends Controller
     public function delete($id)
      {
 
+
+
+
         $category=blogCategory::findOrFail($id);
+        $blogandcat=blogandCategory::where('category_id',$category->id)->get();
+        
+        foreach ($blogandcat as $key) {
+             
+           $key->delete();
+        }
         $category->delete();
+        
           return redirect()->back()->with('status','Silindi');
 
      }

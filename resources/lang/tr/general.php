@@ -40,4 +40,12 @@ return [
     'contact'=>'İletişim',
     'newsletter'=>'Bülten',
     'your_email'=>'Email Adresiniz',
+    'experience'=>'Tecrübe',
+    'won'=>'Ödül',
+    'stuff'=>'İhracat',
+    'happy_customer'=>'Mutlu Müşteriler',
+    'contact_text'=>'Öneri ve Şikayetleriniz için formu doldurarak bizimle iletişim kurabilirsiniz.',
+    'search'=>'Ara',
+    'categories'=>'Kategoriler',
+    'random_post'=>'Rasgele Postlar'
 ];

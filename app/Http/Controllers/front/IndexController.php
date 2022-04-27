@@ -11,6 +11,7 @@ use App\Models\Services;
 use App\Models\Project;
 use App\Models\Takim;
 use App\Models\Blog;
+use App\Models\blogCategory;
 use App\Models\Page;
 use App\Models\Referens;
 use App\Models\setting_text;
@@ -41,6 +42,17 @@ class IndexController extends Controller
             $data=Page::where('isAktive',1)->where('language_id',$lang_id)->orderBy('order_number','asc')->get();
             return $data;
         }
+        public static function servicesGet($lang){
+            $dil=App::getlocale();
+            if($lang=='tr'){
+                $lang_id=1;
+            }
+            else if($lang=='en'){
+                $lang_id=10;
+            }
+            $data=Services::where('isAktive',1)->where('language_id',$lang_id)->orderBy('order_number','asc')->get();
+            return $data;
+        }
         public static function diller(){
 
             $data=Language::all();
@@ -66,10 +78,62 @@ class IndexController extends Controller
 
     // Kullanımı
   
-        
+    public static function getCategory(){
+        $lang=App::getlocale();
+            if($lang=='tr'){
+                $lang_id=1;
+            }
+            else if($lang=='en'){
+                $lang_id=10;
+            }
+        $data=blogCategory::with('cat_count')->where('language_id',$lang_id)->get();
+        return $data;
+    }      
+    public static function getRandomBlog(){
+        $lang=App::getlocale();
+            if($lang=='tr'){
+                $lang_id=1;
+            }
+            else if($lang=='en'){
+                $lang_id=10;
+            }
+        $data=Blog::inRandomOrder('id')->limit(5)->get();
+        return $data;
+    }  
+    public function contactpost(Request $request){
+        $validator = \Validator::make($request->all(), [
+             'name' => 'required',
+             'email'=>'required',
+             'icerik'=>'required',
+                
+            ]);
+        $dil=$request->segment(1);//urlden 1.segmeyi aldık http://cokludilcms.test/en/contactpost  yani eni
+        App::setlocale($dil);//uygulama dilini gelen dile göre ayarladık
+        if ($validator->fails())
+         {
+        return response()->json(['errors'=>$validator->errors()->all()]);
+        }
+        $all=$request->all();
 
+        try{
+
+        mail::send('mail.contact',$all,function($text){
+            $text->subject('Online Contact');
+            $text->to('66fatihavci@gmail.com');
+        });
+
+       return response()->json(['success'=>trans('general.offer_success')]); //trans : @langın aynısıdır dil dosyasında aktif dile göre çekme işlemi yapar.gelen dile göre success mesajını terun ettik. offer_alert
+
+        }
+        catch(\Exception $e){
+
+            Log::info($e->getText());
+            return response()->json(['success'=>trans('general.offer_alert')]); //trans : @langın aynısıdır dil dosyasında aktif dile göre çekme işlemi yapar
+        }
+    }
     public function index(Request $request)
     {       
+                
 
        /* $dilcount=Language::where('code',$dil)->count();
         if(empty($dil) || $dilcount<1 ){
@@ -92,7 +156,7 @@ class IndexController extends Controller
         $blogs=Blog::with('categories.category_name')->where('language_id',$dils->id)->where('isAktive',1)->orderBy('date', 'DESC')->limit(3)->get();
         $referans=Referens::orderBy('order_number', 'ASC')->get();
         $setting_text=Setting_text::where('language_id',$dils->id)->first();
-      
+        $settings=Setting::first();
         $lang=App::getlocale();
         
 
@@ -103,8 +167,15 @@ class IndexController extends Controller
         'blogs'=>$blogs,
         'referans'=>$referans,
         'setting_text'=>$setting_text,
-        'lang'=>$lang    
+        'lang'=>$lang,
+        'setting'=>$settings    
     ]);
+    }
+     public function blog_cat($slug)
+    {
+      $data=blogCategory::with('cat_count.blogs')->where('slug',$slug)->paginate(1);
+      
+       return view('front.blog_category',['data'=>$data]);
     }
     public function about(Request $request)
     {
@@ -153,6 +224,46 @@ public function pages(Request $request)
         
         
     }
+    public function blog(Request $request)
+    {
+        //Eğer tarayıcıyı direkt adres yazarak gelirse tarayıcı diline göre ilgili anasayfaya yönlendirir
+      //  $dil = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2);
+       // return redirect()->route('front.index',['dil'=>$dil]);
+        if(App::getlocale()=='en'){
+            $l_id=10;
+        }
+        else{
+            $l_id=1;
+        }
+        $data=Blog::where('language_id',$l_id)->where('isAktive',1)->paginate(1);
+        //return response()->json($data);
+        return view('front.blog',['data'=>$data]);
+        
+        
+    }
+    public function services(Request $request)
+    {
+        //Eğer tarayıcıyı direkt adres yazarak gelirse tarayıcı diline göre ilgili anasayfaya yönlendirir
+      //  $dil = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2);
+       // return redirect()->route('front.index',['dil'=>$dil]);
+        $id=$request->segment(3);
+        if(App::getlocale()=='tr'){
+            $lang_id=1;
+        }
+        if(App::getlocale()=='en'){
+            $lang_id=10;
+        }
+        $datas=Services::where('id',$id)->where('language_id',$lang_id)->count();
+        if($datas>0){
+            $data=$datas=Services::where('id',$id)->where('language_id',$lang_id)->first();
+             return view('front.services',['data'=>$data]);
+        }
+        else{
+            return abort(404);
+        }
+        
+        
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -182,7 +293,7 @@ public function pages(Request $request)
             $text->to('66fatihavci@gmail.com');
         });
 
-        return response()->json(['success'=>'Başarılı']); //trans : @langın aynısıdır dil dosyasında aktif dile göre çekme işlemi yapar
+        return response()->json(['success'=>trans('general.offer_success')]); //trans : @langın aynısıdır dil dosyasında aktif dile göre çekme işlemi yapar
 
         }
         catch(\Exception $e){
