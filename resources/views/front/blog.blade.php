@@ -24,10 +24,10 @@
                                 <div class="blog-post">
                                     <img src="{{Storage::url($d->image)}}" height="158px" alt="blog post">
                                     <div class="blog-content">
-                                        <span class="date"><i class="fa fa-clock-o"></i> {{$d->created_at}}</span>
-                                        <h3><a href="#">{{$d->title}}</a></h3>
+                                        <span class="date"><i class="fa fa-clock-o"></i>  {{ $d->created_at->diffForHumans()}}</span>
+                                        <h3><a href="{{route('front.blog_detail',$d->slug)}}">{{$d->title}}</a></h3>
                                         <p>{!! \App\Http\Controllers\front\IndexController::kisalt($d->content) !!}.</p>
-                                        <a href="#" class="post-meta">@lang('general.read_more')</a>
+                                        <a href="{{route('front.blog_detail',$d->slug)}}" class="post-meta">@lang('general.read_more')</a>
                                     </div>
                                 </div>
                             </div><!-- Post 1 -->

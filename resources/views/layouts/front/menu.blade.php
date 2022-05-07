@@ -45,7 +45,7 @@
                     <div class="bottom-content-wrap row">
                         <div class="col-md-3">
                             <div class="site-branding">
-                                <a href="index.html"><img src="{{asset('front/venox/')}}/img/logo.png" alt="Brand"></a>
+                                <a href="{{route('front.index')}}"><img src="{{asset('front/venox/')}}/img/logo.png" alt="Brand"></a>
                             </div>
                         </div>
                        <div class="col-md-9 d-none d-md-block text-right">

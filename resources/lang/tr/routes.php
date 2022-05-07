@@ -12,6 +12,8 @@
     "map"    =>  "harita",
     "blog"    =>  "blog",
     "blog_cat"    =>  "blog-kategoriler/{slug}",
+    "blog_detail"    =>  "blog-detay/{slug}",
+    "blog_search"    =>  "ara",
 ];
     
 

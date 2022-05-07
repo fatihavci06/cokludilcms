@@ -44,15 +44,16 @@
                         <div class="widget-content">
                             <h3>@lang('general.newsletter')</h3>
                             <div class="subscribe-wrap">
-                                <form action="#" class="subscribe-form">
-                                    <input type="email" name="email" id="subs-email" class="form-input" placeholder="@lang('general.your_email')">
-                                    <button type="submit" class="submit"><i class="ti-email"></i></button>
+                                <div  class="subscribe-form">
+                                    
+                                    <input type="email" name="emailN"  id="emailn" class="form-input" placeholder="@lang('general.your_email')">
+                                    <button   id="newsletterBtn" class="submit"><i class="ti-email"></i></button>
                                     <div class="clearfix"></div>
-                                    <div id="subscribe-result">
-                                        <p class="subscription-success"></p>
-                                        <p class="subscription-error"></p>
+                                    
+                                </div>
+                                <div id="subscribe-result">
+                                        
                                     </div>
-                                </form>
                             </div><!-- /.subscribe_wrap -->
                             
                         </div>
@@ -105,6 +106,73 @@
         <script src="{{asset('front/venox/')}}/js/contact.js"></script>
         <!-- Main JS -->
         <script src="{{asset('front/venox/')}}/js/main.js"></script>
+
+        <script type="text/javascript">
+
+   
+
+    $.ajaxSetup({
+
+        headers: {
+
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+        }
+
+    });
+
+   
+
+    $(document).on('click', '#newsletterBtn', function(e) {  
+
+        $('#subscribe-result').hide();
+
+        e.preventDefault();
+
+        var err='';
+
+        var email = $("#emailn").val();
+
+        
+        
+        
+
+        $.ajax({
+
+           type:'POST',
+
+           url:"{{ route('front.newsletter') }}",
+
+           data:{email:email},
+
+           success:function(data){
+            if(data.errors){
+                console.log(data.errors)
+                $('#subscribe-result').show();
+            
+             
+                $.each( data.errors, function( key, value ) {
+                  err+='<p>'+value+'</p>';
+
+                });
+                 $('#subscribe-result').html(err);
+            }
+            else{
+             console.log(data);
+             $('#subscribe-result').show();
+             $('#subscribe-result').html(data.success);
+             $("#emailn").val("");
+             }
+
+           }
+
+        });
+
+  
+
+    });
+
+</script>
 @yield('js')
     </body>
 </html>

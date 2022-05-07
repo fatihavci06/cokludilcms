@@ -40,6 +40,11 @@
                 <li><a class="sidebar-link" href="{{route('slider.create')}}">Slider Ekle</a></li>
               </ul>
             </li>
+            <li class="nav-item dropdown"><a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i></span><span class="title">Bülten</span><span class="arrow"><i class="ti-angle-right"></i></span></a>
+              <ul class="dropdown-menu">
+                <li><a class="sidebar-link" href="{{route('newlestter.index')}}"> Liste</a></li>
+              </ul>
+            </li>
             <li class="nav-item dropdown"><a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i></span><span class="title">Servisler</span><span class="arrow"><i class="ti-angle-right"></i></span></a>
               <ul class="dropdown-menu">
                 <li><a class="sidebar-link" href="{{route('services.index')}}">Servisler Liste</a></li>

@@ -15,6 +15,7 @@ use App\Models\blogCategory;
 use App\Models\Page;
 use App\Models\Referens;
 use App\Models\setting_text;
+use App\Models\Newlestter;
 use App;
 use Mail;
 use Log;
@@ -177,6 +178,13 @@ class IndexController extends Controller
       
        return view('front.blog_category',['data'=>$data]);
     }
+    public function blog_detail($slug){
+       // return $slug;
+
+        $data=Blog::with('categories.category_name')->where('slug',$slug)->first();
+        //return $data;
+        return view('front.blog_detail',['data'=>$data]);
+    }
     public function about(Request $request)
     {
         //Eğer tarayıcıyı direkt adres yazarak gelirse tarayıcı diline göre ilgili anasayfaya yönlendirir
@@ -200,6 +208,33 @@ class IndexController extends Controller
        // return redirect()->route('front.index',['dil'=>$dil]);
         $data=$request->segment(2);
         return view('front.contact',['data'=>$data]);
+    }
+    public function newsletter(Request $request)
+    {
+        $dil=$request->segment(1);//urlden 1.segmeyi aldık http://cokludilcms.test/en/contactpost  yani eni
+        App::setlocale($dil);
+         $validator = \Validator::make($request->all(), [
+             
+            'email' => 'required|email'
+             
+                
+            ]);
+        if ($validator->fails())
+         {
+        return response()->json(['errors'=>$validator->errors()->all()]);
+        }
+        $varmi=Newlestter::where('email',$request->email)->count();
+
+        if($varmi>0){
+            return response()->json(['success'=>trans('general.error')]);
+        }
+        else{
+            $bul=new Newlestter;
+            $bul->email=$request->email;
+            $bul->save();
+            return response()->json(['success'=>trans('general.success')]);
+        }
+        
     }
 public function pages(Request $request)
     {
@@ -239,6 +274,30 @@ public function pages(Request $request)
         //return response()->json($data);
         return view('front.blog',['data'=>$data]);
         
+        
+    }
+    public function dilidbul()
+    {
+        if(App::getlocale()=='en'){
+            $l_id=10;
+        }
+        else{
+            $l_id=1;
+        }
+        return $l_id;
+    }
+    public function blog_search(Request $request)
+    {   
+        $dil=$this->dilidbul();
+        if(isset($request->name)){
+            $gelen=strip_tags(addslashes($request->name));
+            $data=Blog::where('language_id',$dil)->where('content','like','%'.$gelen.'%')->paginate(1);
+            return view('front.blog',['data'=>$data]);
+            return $data;
+        }
+        else{
+            return redirect()->back();
+        }
         
     }
     public function services(Request $request)
@@ -290,7 +349,7 @@ public function pages(Request $request)
 
         mail::send('mail.offer',$all,function($text){
             $text->subject('Online Teklif');
-            $text->to('66fatihavci@gmail.com');
+            $text->to('66fatihavci3@gmail.com');
         });
 
         return response()->json(['success'=>trans('general.offer_success')]); //trans : @langın aynısıdır dil dosyasında aktif dile göre çekme işlemi yapar

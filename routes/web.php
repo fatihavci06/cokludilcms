@@ -34,6 +34,13 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::post('/data','App\Http\Controllers\admin\slider\IndexController@data')->name('slider.data');    
         Route::get('/sortable','App\Http\Controllers\admin\slider\IndexController@sortable')->name('slider.sortable');    
     });
+    Route::prefix('newlestter')->group(function(){
+         
+         Route::get('/','App\Http\Controllers\admin\Newlestter\IndexController@index')->name('newlestter.index');
+       
+        Route::get('/delete/{id}','App\Http\Controllers\admin\Newlestter\IndexController@destroy')->name('newlestter.delete');
+           
+    });
     Route::prefix('services')->group(function(){
          Route::get('/create','App\Http\Controllers\admin\services\IndexController@create')->name('services.create');
          Route::post('/store','App\Http\Controllers\admin\services\IndexController@store')->name('services.store');
@@ -133,6 +140,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
 });
 Auth::routes();
+Route::post('/newsletter','App\Http\Controllers\front\IndexController@newsletter')->name('front.newsletter');
 Route::group([
      'prefix' => LaravelLocalization::setLocale(),
      'middleware' => [ 'localeSessionRedirect', 'localizationRedirect' ]
@@ -146,7 +154,8 @@ Route::group([
     Route::get(LaravelLocalization::transRoute('routes.blog'), 'App\Http\Controllers\front\IndexController@blog')->name('front.blog');
      Route::get(LaravelLocalization::transRoute('routes.map'), 'App\Http\Controllers\front\IndexController@map');
      Route::get(LaravelLocalization::transRoute('routes.blog_cat'), 'App\Http\Controllers\front\IndexController@blog_cat')->name('front.blog_cat');
-   
+     Route::get(LaravelLocalization::transRoute('routes.blog_detail'), 'App\Http\Controllers\front\IndexController@blog_detail')->name('front.blog_detail');
+     Route::get(LaravelLocalization::transRoute('routes.blog_search'), 'App\Http\Controllers\front\IndexController@blog_search')->name('front.blog_search');
     //Route::get(LaravelLocalization::transRoute('routes.pages'), 'App\Http\Controllers\front\IndexController@pages');
 
     

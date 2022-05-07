@@ -47,5 +47,7 @@ return [
     'contact_text'=>'Öneri ve Şikayetleriniz için formu doldurarak bizimle iletişim kurabilirsiniz.',
     'search'=>'Ara',
     'categories'=>'Kategoriler',
-    'random_post'=>'Rasgele Postlar'
+    'random_post'=>'Rasgele Postlar',
+    'success'=>'Başarılı',
+    'error'=>'Hata!'
 ];

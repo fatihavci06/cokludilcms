@@ -2,9 +2,9 @@
                         <div class="sidebar-wrap">
                             <div class="sidebar-widget mb-50">
                                 <h4>@lang('general.search')</h4>
-                                <form action="" class="search-form">
-                                    <input type="text" class="form-control" placeholder="@lang('general.search')">
-                                    <button class="search-btn" type="button"><i class="fa fa-search"></i></button>
+                                <form action="{{route('front.blog_search')}}" method="get" class="search-form">
+                                    <input type="text" name='name' class="form-control" placeholder="@lang('general.search')">
+                                    <button class="search-btn" type="submit"><i class="fa fa-search"></i></button>
                                 </form>
                             </div>
                             <div class="sidebar-widget mb-50">
@@ -32,7 +32,7 @@
                                     <li>
                                         <img src="{{Storage::url($r->image)}}" alt="blog post">
                                         <div>
-                                            <h4><a href="#">{{$r->title}}</a></h4>
+                                            <h4><a href="{{route('front.blog_detail',$r->slug)}}">{{$r->title}}</a></h4>
                                             <span class="date"><i class="fa fa-clock-o"></i> {{$r->date}}</span>   
                                         </div>                 
                                     </li>

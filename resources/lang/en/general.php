@@ -47,6 +47,8 @@ return [
     'contact_text'=>'You can contact us by filling out the form for your suggestions and complaints.',
     'search'=>'Search',
     'categories'=>'Categories',
-    'random_post'=>'Random Posts'
+    'random_post'=>'Random Posts',
+    'success'=>'Success',
+    'error'=>'Error!'
 
 ];

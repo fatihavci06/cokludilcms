@@ -9,5 +9,7 @@ return [
     "contact"    =>  "contact",
     "map"    =>  "map",
     "blog"    =>  "blog",
+    "blog_detail"    =>  "blog-detail/{slug}",
     "blog_cat"    =>  "blog-category/{slug}",
+    "blog_search"    =>  "search",
 ];

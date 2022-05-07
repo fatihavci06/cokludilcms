@@ -4,8 +4,7 @@
      <div class="pager-header">
             <div class="container">
                 <div class="page-content">
-                    <h2>Blog Right Sidebar</h2>
-                    <p>Lorem Ipsum is simply text of the industry. </p>
+                    
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{route('front.index')}}">@lang('general.home')</a></li>
                         <li class="breadcrumb-item active">Blog</li>
@@ -26,10 +25,10 @@
                                 <div class="blog-post">
                                     <img src="{{Storage::url($b->blogs[0]->image)}}" height="158px" alt="blog post">
                                     <div class="blog-content">
-                                        <span class="date"><i class="fa fa-clock-o"></i> {{$b->blogs[0]->created_at}}</span>
-                                        <h3><a href="#">{{$b->blogs[0]->title}}</a></h3>
+                                        <span class="date"><i class="fa fa-clock-o"></i> {{ $b->blogs[0]->created_at->diffForHumans()}} </span>
+                                        <h3><a href="{{route('front.blog_detail',$b->blogs[0]->slug)}}">{{$b->blogs[0]->title}}</a></h3>
                                         <p>{!! \App\Http\Controllers\front\IndexController::kisalt($b->blogs[0]->content) !!}.</p>
-                                        <a href="#" class="post-meta">@lang('general.read_more')</a>
+                                        <a href="{{route('front.blog_detail',$b->blogs[0]->slug)}}" class="post-meta">@lang('general.read_more')</a>
                                     </div>
                                 </div>
                             </div>
