@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 });*/
 
 Route::post('/offer','App\Http\Controllers\front\IndexController@offer')->name('front.offer');
-
+Route::post('/blog_comment/{blog_id}/{parent_id?}','App\Http\Controllers\front\IndexController@blog_comment')->name('front.blog_comment');
+Route::post('/blog_comment_ajax','App\Http\Controllers\front\IndexController@blog_comment_ajax')->name('front.blog_comment_ajax');
 Route::post('/contact','App\Http\Controllers\front\IndexController@contactpost')->name('front.contactpost');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::middleware(['auth'])->prefix('admin')->group(function () {

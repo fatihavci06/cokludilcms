@@ -16,9 +16,11 @@ use App\Models\Page;
 use App\Models\Referens;
 use App\Models\setting_text;
 use App\Models\Newlestter;
+use App\Models\Comment;
 use App;
 use Mail;
 use Log;
+use Carbon\Carbon;
 
 class IndexController extends Controller
 {
@@ -183,7 +185,9 @@ class IndexController extends Controller
 
         $data=Blog::with('categories.category_name')->where('slug',$slug)->first();
         //return $data;
-        return view('front.blog_detail',['data'=>$data]);
+        $comment=Comment::with('child_comment')->where('blog_id',$data->id)->where('parent_id',0)->get();
+        $comment_count=Comment::where('blog_id',$data->id)->count();
+        return view('front.blog_detail',['data'=>$data,'comment'=>$comment,'comment_count'=>$comment_count]);
     }
     public function about(Request $request)
     {
@@ -360,6 +364,102 @@ public function pages(Request $request)
             Log::info($e->getText());
             return response()->json(['error'=>'Hata var']);; //trans : @langın aynısıdır dil dosyasında aktif dile göre çekme işlemi yapar
         }
+        
+
+
+    }
+    public function blog_comment(Request $request,$blog_id,$parent_id=0)
+    {
+        //
+       // return response()->json($request->all());
+        if($parent_id==0){
+            $request->validate([
+            'name'=>'required|min:5',
+                'email'=>'required',
+                'comment'=>'required'
+           ]);
+            $data=new Comment;
+            $data->name=$request->name;
+            $data->email=$request->email;
+            $data->comment=$request->comment;
+            $data->blog_id=$blog_id;
+            $data->parent_id=$parent_id;
+            $succ=$data->save();
+
+            if(!$succ){
+                return redirect()->back()->with('status','Hata');
+            }
+            else{
+                return redirect()->back()->with('status','Başarılı');
+            }
+        }
+        else{
+           $validator = \Validator::make($request->all(), [
+             'name' => 'required',
+             'email'=>'required',
+                'comment'=>'required'
+                
+            ]);
+        if ($validator->fails())
+         {
+        return response()->json(['errors'=>$validator->errors()->all()]);
+        }
+            $data=new Comment;
+            $data->name=$request->name;
+            $data->email=$request->email;
+            $data->comment=$request->comment;
+            $data->blog_id=$blog_id;
+            $data->parent_id=$parent_id;
+            $succ=$data->save();
+            if(!$succ){
+               return response()->json(['success'=>$request->name ]);
+            }
+            else{
+                return response()->json(['success'=>'it is saved' ]);
+            }
+            
+        }
+
+
+
+        
+
+
+    }
+    public function blog_comment_ajax(Request $request)
+    {
+        //
+       // return response()->json($request->all());
+       
+       
+           $validator = \Validator::make($request->all(), [
+             'name' => 'required',
+             'email'=>'required',
+                'comment'=>'required'
+                
+            ]);
+        if ($validator->fails())
+         {
+        return response()->json(['errors'=>$validator->errors()->all()]);
+        }
+            $data=new Comment;
+            $data->name=$request->name;
+            $data->email=$request->email;
+            $data->comment=$request->comment;
+            $data->blog_id=$request->blog_id;
+            $data->parent_id=$request->parent_id;
+            $succ=$data->save();
+            if(!$succ){
+               return response()->json(['success'=>$request->name ]);
+            }
+            else{
+                return response()->json(['success'=>'it is saved' ]);
+            }
+            
+    
+
+
+
         
 
 
